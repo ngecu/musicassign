@@ -33,7 +33,7 @@ const EditpageScreen = ({ match,history}) => {
     // }
 
     const [recording_data,setRecordingdata] = useState(myObject)
-    const [new_array,sad] = useState('')
+    const [checkeffect,setCheckEffect] = useState(true)
 
     
     recording_data.map(myFunction)
@@ -55,7 +55,7 @@ const EditpageScreen = ({ match,history}) => {
         console.log("sumitting ",sample_type);
         console.log("sumitting ",sample_name);
 
-        const url =`http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=update&endpoint=samples&sampleType=${sample_type}&sampleName${sample_name}=&id=${sample_id}`
+        const url =`http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=update&endpoint=samples&sampleType=${sample_type}&sampleName=${sample_name}=&id=${sample_id}`
         fetch(url, {
           method: 'POST',
           body: JSON.stringify(recording_data) 
@@ -120,15 +120,17 @@ const EditpageScreen = ({ match,history}) => {
         
 
         // var objIndex = recording_data.findIndex((obj => Object.keys(obj)[0]  === objectoo ));
-        
-        sad(recording_data)
+        console.log("recoord ",recording_data)
+        setRecordingdata(recording_data)
+        // sad(recording_data)
+        setCheckEffect(!checkeffect)
     }
 
     useEffect(() => {
         
         console.log("recording_data")
        
-      }, [recording_data])
+      }, [checkeffect])
   
 
 

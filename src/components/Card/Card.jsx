@@ -24,22 +24,23 @@ function Card(props) {
  
 
 
-
+    const sampler = new Tone.Sampler({
+        urls: {
+            "C4": "C4.mp3",
+            "D#4": "Ds4.mp3",
+            "F#4": "Fs4.mp3",
+            "A4": "A4.mp3",
+        },
+        baseUrl: "https://tonejs.github.io/audio/salamander/",
+    }).toDestination();
 
     
 
     const playHandler = () => {
         play(true)
-Tone.loaded().then(() => {
-    synth.triggerAttack("D4", now);
-    synth.triggerAttack("F4", now + 0.5);
-    synth.triggerAttack("A4", now + 1);
-    synth.triggerAttack("C5", now + 1.5);
-    synth.triggerAttack("E5", now + 2);
-    synth.triggerRelease(["D4", "F4", "A4", "C5", "E5"], now + 4);
-
-
-});
+        Tone.loaded().then(() => {
+            sampler.triggerAttackRelease(["Eb4", "G4", "Bb4"], 0.5);
+        })
         play(false)
        
         
