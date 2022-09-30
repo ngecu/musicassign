@@ -7,97 +7,161 @@ import * as Tone from 'tone'
 import Instrument from '../../components/Instrument/Instrument'
 
 
-const Createcreen = ({ match}) => {
+const Createcreen = ({ match,history}) => {
     const [playing,play] = useState(false)
     const [sample_name,setName] = useState("")
     const [sample_type,setType] = useState("Piano")
+    const [final,modifyfinal] = useState([])
 
 
     const [recording_data,setRecordingdata] = useState([])
     
     
-    const now = Tone.now()
+    var now = Tone.now()
  
-    const types = ['Piano','French Horn','Guitar','Drums']
-
-    switch (sample_type) {
-        case "Piano":
-            var synth = new Tone.PolySynth(Tone.Synth).toDestination();
-            break;
-        case "French Horn":
-            synth = new Tone.AMSynth(Tone.Synth).toDestination();
-            break
-        case "Guitar":
-            synth = new Tone.PluckSynth(Tone.Synth).toDestination();
-            break
-        case "Drums":
-            synth = new Tone.FMSynth(Tone.Synth).toDestination();
-            break
-        default:
-            synth = new Tone.PolySynth(Tone.Synth).toDestination();
-    }
+    const types = ['piano','french_horn','guitar','drums']
 
 
 
-    const init_array = [
-        {"B": [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
-        {"A": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
-        {"G": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
-        {"F": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
+
+    const asd = [
+        {"B": [false, false, false, false, false, true, false, false, false, false, false, false, false, false, false, false]},
+        {"A": [false, false, false, false, false, false, true, false, false, false, false, false, false, false, false, false]},
+        {"G": [true, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
+        {"F": [false, false, false, false, false, false, false, true, false, false, false, false, false, false, false, false]},
         {"E": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
-        {"D": [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]},
-        {"C": [false, false, false, false, true, false, false, false, false, false, false, false, false, false, false, false]}
+        {"D": [false, false, false, true, false, false, false, false, false, false, false, false, false, false, false, false]},
+        {"C": [false, true, true, false,true, false, false, false, false, false, false, false, false, false, false, false]}
     ]
 
     
+    const final_in =[]
+    const modify_data = (init_array) =>{
+        
+        init_array.forEach((element,i) => {
+            // element is object
+            var arr = Object.values(element)
+           
+            for (let index = 0; index < arr.length; index++) {
+                const elem = arr[index];
+                
+                final_in.push(elem)
+                return final_in
+                
+                
+                
+            }
 
+        });
+    }
+    
+    const p = modify_data(asd)
+
+    const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+
+
+           const keys_to_sing = []
+           const k = []
+            var ppapa = []
+
+    const x = (init_array) =>{
+        
+        init_array.forEach((element,i) => {
+            // element is object
+            var ind_key =  Object.keys(element)[0]
+            k.push(ind_key)
+            var arr = Object.values(element)
+        
+            for (let index = 0; index < arr.length; index++) {
+                const elem = arr[index];
+                console.log(elem)
+                elem.forEach((sad,i) => {
+                  
+                    if (sad === true) {
+                        keys_to_sing.push(`${ind_key}${i+1}`)
+
+                        ppapa = (keys_to_sing.sort((a,b) => {
+                            var a1 = a.substring(1,2);
+                            var b1 = b.substring(1,2);
+                            if (a1 === b1) {
+                              return 0;
+                            }
+                            return a1 > b1 ? 1 : -1;
+                          }));
+
+                    }
+                });
+                // final_in.push(elem)
+           
+                ppapa.forEach(element => {
+                    synth.triggerAttack(element, now+=0.5);
+                    
+                });
+                synth.triggerRelease(keys_to_sing, now + 4);
+
+
+
+                
+                
+            }
+
+        });
+    }
 
     
-
-
     const playHandler = () => {
         play(true)
         Tone.start()
-        for (let index = 0; index < init_array.length; index++) {
-            // elemment is object
-            const element = init_array[index];
-            const  first_letter = Object.keys(element)[0];
-            const value_array = Object.values(element)[0];
+   
 
 
-            value_array.forEach(array_el => {
-                if (array_el) {
-                    var el_pos = value_array.indexOf(array_el)
-                    synth.triggerAttackRelease(`${first_letter}${el_pos}`, "8n", now)
-                    console.log(array_el)
-                }
-            });  
-            
-        }
+  
+        // sampler.triggerAttackRelease(["Eb4", "G4", "Bb4"], 0.5);
+
+        // player.start();
+        synth.triggerAttack("D4", now);
+synth.triggerAttack("F4", now + 0.5);
+synth.triggerAttack("A4", now + 1);
+synth.triggerAttack("C4", now + 1.5);
+synth.triggerAttack("E4", now + 2);
+synth.triggerRelease(["D4", "F4", "A4", "C4", "E4"], now + 4);
+        // Tone.Transport.stop();
+        play(false)
+
+
+
         
     }
 
+
+
+    function createGist() {
+        console.log("sumitting ",sample_type);
+        console.log("sumitting ",sample_name);
+
+        const url =`http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=create&endpoint=samples&sampleType=${sample_type}&sampleName=${sample_name}`
+        fetch(url, {
+          method: 'POST',
+          body: JSON.stringify(asd) 
+        }).then(function(response) {
+            alert("Success")
+            history.push('/')
+            return response.json();
+        }).then(data => {
+            console.log(data);
+          }).catch(console.error);
+        }
+      
 
 
 
     const handleSubmit= (e) =>{
         e.preventDefault()
-        const url = `http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=create&endpoint=samples&sampleType=${sample_type}&sampleName=${sample_name}`
-        
-        const rawResponse =  fetch(url, {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(init_array)
-          });
-          const content =  rawResponse.json();
-        
-          console.log(content);
+        createGist()
 
     } 
     
+    console.log(final_in)
 
 
 return (
@@ -138,7 +202,8 @@ return (
 
                     {types.map((type)=>(
                              <button 
-                             id="column2" 
+                             id="column2"   
+                            type="button"
                              
                              onClick={(e) => setType(type)}
 
@@ -151,18 +216,34 @@ return (
                
                 </div>
                 </div>
-{init_array.map((array_element)=>(
+{asd.map((array_element)=>(
   <div class="row" id="row-one">
   <div id="column1"><h5 >{Object.keys(array_element)[0]}</h5></div>
-  {Object.values(array_element)[0].map((array_key)=>(
+  {Object.values(array_element)[0].map((array_key,i)=>(
       <button class="type-sub-cont"
+      type="button"
       id={(array_key === true ? 'checked-on' : 'checked-off')}
-      >  {Object.values(array_element)[0].indexOf(array_key)}   </button>
+      >   </button>
   ))}
      
 
   </div>
 ))}
+
+{/* {
+    final_in.map((array_element)=>(
+        <>
+    
+        <div class="row" id="row-one">
+            <div id="column1"><h5 >kondoo</h5></div>
+            {array_element.map((f_o)=>(
+             <button class="type-sub-cont"  
+             id={(f_o === true ? 'checked-on' : 'checked-off')}
+             >  {f_o}  </button>      
+    ))}
+    </div>
+</>
+    ))} */}
                  
 
                   

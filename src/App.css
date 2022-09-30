@@ -25,31 +25,6 @@ body{
   position: relative;
   top: 75px;
 }
-:root {
-	--purpleColorLighter: #A42DE8;
-	--blueColorLighter: #318AFF;
-	--blueColorDarker: #2D3DE8;
-	--bgColor: #ffffff;
-	--fgColor: #800080;
-	--fgColorLighter: rgba(128,0,128,0.5);
-	--headerTextColor: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bgColor: #422142;
-		--fgColor: #f0c4f0;
-		--fgColorLighter: rgba(210,169,210,0.5);
-		--headerTextColor: var(--fgColor);
-	}
-}
-
-@media (max-width: 500pt) {
-   .right-items{
-margin-right: 0%;
-   }
-    }
-  
 
 body{
   
@@ -119,7 +94,15 @@ p{
 
 #three1, #three2, #three3 ,#create{
 background-color: #800080;
+color: white;
 }
+
+#three1:hover, #three2:hover, #three3:hover ,#create:hover {
+    background-color: #A32CE7;
+    color: white;
+    }
+
+
 #three1 a, #three2 a, #three3 a, #create a{
 color: #ffffff;
     }
@@ -329,13 +312,8 @@ color: #ffffff;
     color: #ffffff;
 }
 
-button::hover{
-    background: #A42DE8;;
-}
-
 #edit-cream{
     padding: 6px 2%;
-    background-color: #a32de849;
     border-radius: 20px;
     
 }
@@ -344,7 +322,7 @@ button::hover{
     padding: 6px 2%;
     background-color: #a32de849;
     border-radius: 20px;
-    width:100%
+    width:95%
 
 }
 
@@ -390,3 +368,8 @@ button::hover{
     margin-right: 20px;
     
 }
+
+/* button{
+    
+    cursor: pointer;
+} */

@@ -10,6 +10,7 @@ const HomepageScreen = () => {
     const [samples, updateSamples] = useState('')
     const [sample_locations, updateSampleLocations] = useState('')
 
+    const types = ['Piano','French Horn','Guitar','Drums']
 
   
 
@@ -77,17 +78,27 @@ return (
                 Samples you've created
             </h1>
             <div>
-                
-                {samples.length > 0 && samples.map(item => (
+                {samples.length == 0 ? (
+                     <div class="container-cont">
+
+                    <p>No samples </p>
+                    </div>
+                ):(
+                    <>
+                {samples.map(item => (
                 <Card  sample_details={item}  />
                 ))
             }
+            </>
+                )}
          
 
             <div class="container-cont">
+            <Link to={`/create`}>
                 <button class="one-of-three" id="create">
-                <Link to={`/create`}>Create Sample </Link>
+                Create Sample 
                      </button>
+                     </Link>
             </div>
 
             </div>

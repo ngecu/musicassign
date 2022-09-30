@@ -3,10 +3,12 @@ import React,{useState, useEffect,usState} from 'react';
 import { fetchData } from '../../api/';
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import Card from '../../components/Card/Card'
+import * as Tone from 'tone'
 
-const ShareSampleScreen = ({match}) => {
+
+const ShareSampleScreen = ({match,history}) => {
     const { state } = useLocation();
-
+    const [playing,play] = useState(false)
     const [sample_name,setName] = useState(state.name)
     const [sample_date,setDate] = useState()
     const [sample_to_locations, updateSampleToLocations] = useState('')
@@ -15,8 +17,9 @@ const ShareSampleScreen = ({match}) => {
 
 
 
-    const sample_id = match.params.id
-
+    const sample_id = state.id
+    const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+    const now = Tone.now()
     useEffect(() => {
        
         fetchSampleToLocation()
@@ -62,6 +65,54 @@ const ShareSampleScreen = ({match}) => {
     
     }
 
+
+    const shareSample = (location_iddd) =>{
+        console.log("samole share");
+
+        const url =`http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=create&endpoint=samples_to_locations&sampleID=${sample_id}&locationID=${location_iddd}`
+        fetch(url, {
+          method: 'GET',
+        }).then(function(response) {
+            alert("Success")
+            history.push('/')
+            return response.json();
+        }).then(data => {
+            console.log(data);
+          }).catch(console.error);    
+    }
+
+    const deshareSample = (location_iddd) =>{
+        console.log("samole share");
+        const url =`http://wmp.interaction.courses/api/v1/?apiKey=2izT6jiZ&mode=delete&endpoint=samples_to_locations&id=${location_iddd}`
+        fetch(url, {
+          method: 'GET',
+        }).then(function(response) {
+            alert("Success")
+            history.push('/')
+            return response.json();
+        }).then(data => {
+            console.log(data);
+          }).catch(console.error);   
+    
+    
+    }
+
+    const playHandler = () => {
+        play(true)
+        console.log("playing")
+        synth.triggerAttack("D4", now);
+        synth.triggerAttack("F4", now + 0.5);
+        synth.triggerAttack("A4", now + 1);
+        synth.triggerAttack("C5", now + 1.5);
+        synth.triggerAttack("E5", now + 2);
+        synth.triggerRelease(["D4", "F4", "A4", "C5", "E5"], now + 4);
+        play(false)
+    }
+
+    
+
+    
+
   
     
 return (
@@ -78,7 +129,12 @@ return (
                      <p class="date-text">{sample_date}</p>
                  </div>
                   <div class="right-items" id="share-page-right">
-                     <button class="one-of-three" id="preview"><a href="preview.htm">Preview</a></button>
+                     <button 
+                     class="one-of-three" 
+                     id="preview"
+                     type="button" 
+                    onClick={playHandler} id="two1">{playing ? 'Stop Previewing' : 'Preview'}
+                     </button>
                   </div>
              </div>
                 
@@ -86,7 +142,9 @@ return (
              
              {locations.length > 0 && locations.map(l => (
                  <>
-                 {
+
+                 
+                 {sample_to_locations && 
                     sample_to_locations.map(x => (
                         <div class="share-status" >
                         <div class="left-items" id="text-container">
@@ -94,15 +152,21 @@ return (
                         </div>
                         <div class="right-items" id="status-sub-cont">
 
-                        <div class="shared" id={l.id === x.locations_id && l.samples_id === sample_id ? 'checked-on' : 'checked-off'}>
+                        <button class="shared" 
+                        onClick={() => shareSample(l.id)}
+                        disabled={l.id === x.locations_id && x.samples_id === sample_id ? true : false}
+                        
+                        id={l.id === x.locations_id && x.samples_id === sample_id ? 'checked-off' : 'checked-on'}>
                         <h5>Not Shared</h5>
-                        </div>
-                         <div class="shared" id={l.id === x.locations_id && l.samples_id === sample_id ? 'checked-on' : 'checked-off'}>
+                        </button>
+                         <button class="shared" 
+                         onClick={() => deshareSample(x.id)}
+                         
+                         
+                         id={l.id === x.locations_id && x.samples_id === sample_id ? 'checked-on' : 'checked-off'}>
                         <h5>Shared</h5>
-                        </div>
-                        {/* <div class="shared" id="checked-on">
-                        <h5>NOsdasd</h5>
-                        </div> */}
+                        </button>
+
                      </div>
                      </div>
                     ))
