@@ -11,6 +11,8 @@ const EditpageScreen = ({ match,history}) => {
 
     const { state } = useLocation();
 
+    console.log("state is ",state)
+
 
     
 

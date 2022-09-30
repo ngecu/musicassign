@@ -4,16 +4,16 @@ import { fetchData } from '../../api/';
 import Card from '../../components/Card/Card'
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import * as Tone from 'tone'
-import Instrument from '../../components/Instrument/Instrument'
 
 
-const Createcreen = ({ match,history}) => {
+
+const CreateScreen = ({ match,history}) => {
+
+    //states
     const [playing,play] = useState(false)
     const [sample_name,setName] = useState("")
     const [sample_type,setType] = useState("Piano")
     const [final,modifyfinal] = useState([])
-
-
     const [recording_data,setRecordingdata] = useState([])
     
     
@@ -177,7 +177,6 @@ return (
                         <input 
                         id="edit-cream-input"
                         type="text" 
-                        name=""
                         value={sample_name}
                         onChange={(e) => setName(e.target.value)}
 
@@ -230,20 +229,7 @@ return (
   </div>
 ))}
 
-{/* {
-    final_in.map((array_element)=>(
-        <>
-    
-        <div class="row" id="row-one">
-            <div id="column1"><h5 >kondoo</h5></div>
-            {array_element.map((f_o)=>(
-             <button class="type-sub-cont"  
-             id={(f_o === true ? 'checked-on' : 'checked-off')}
-             >  {f_o}  </button>      
-    ))}
-    </div>
-</>
-    ))} */}
+
                  
 
                   
@@ -256,4 +242,4 @@ return (
 }
 
 
-export default Createcreen
+export default CreateScreen
