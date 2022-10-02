@@ -98,10 +98,11 @@ const seqqqq = new Tone.Sampler({
 
 const Sequencer = (props) => {
   const [activeColumn, setColumn] = useState(0);
-  const [pattern, setPattern] = useState(initialPattern);
+  const [pattern, setPattern] = useState(props.initial_pattern);
 
 
 
+  console.log("props.sample type is ",props.initial_pattern);
   
   function hello(type,array_type,sq){
     const loop = new Tone.Sequence(

@@ -5,7 +5,7 @@ import Sequencer from "../components/Seq";
 
 
 
-const CreateScreen = ({ match,history}) => {
+export default  function CreateScreen({ match,history}) {
 
     //states
     const [playing,setPlay] = useState(false)
@@ -177,6 +177,3 @@ return (
    </>
 )
 }
-
-
-export default CreateScreen

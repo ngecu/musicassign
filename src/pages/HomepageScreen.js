@@ -4,7 +4,7 @@ import Card from '../components/Card'
 import { Link } from "react-router-dom";
 
 
-const HomepageScreen = () => {
+export default function HomepageScreen () {
 
     const [samples, updateSamples] = useState('')
     const [sample_locations, updateSampleLocations] = useState('')
@@ -110,4 +110,3 @@ return (
 }
 
 
-export default HomepageScreen

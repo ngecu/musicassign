@@ -7,7 +7,7 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 import logo from '../images/logo.png'
 
-function Header() {
+export default function Header() {
   const location = useLocation()
     return (
       
@@ -34,4 +34,3 @@ function Header() {
 
     );
   }
-export default Header

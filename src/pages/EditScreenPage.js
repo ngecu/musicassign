@@ -3,10 +3,9 @@ import React,{useState,useCallback, useEffect} from 'react';
 import Card from '../components/Card'
 import { Routes, Route, useLocation, Link } from "react-router-dom";
 import * as Tone from 'tone'
-import {tonePart,piano,frenchHorn,guitar,drums} from '../data/instruments'
 import Sequencer from "../components/Seq";
 
-const EditpageScreen = ({ match,history}) => {
+export default  function EditpageScreen  ({ match,history})  {
     const { state } = useLocation();
     const [sample_name,setName] = useState(state.name)
     const [sample_type,setType] = useState(state.type)
@@ -251,6 +250,3 @@ return (
 
 )
 }
-
-
-export default EditpageScreen

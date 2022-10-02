@@ -5,7 +5,7 @@ import Card from '../components/Card'
 import * as Tone from 'tone'
 
 
-const ShareSampleScreen = ({match,history}) => {
+export default  function ShareSampleScreen ({match,history}) {
     const { state } = useLocation();
     const [playing,play] = useState(false)
     const [sample_name,setName] = useState(state.name)
@@ -196,10 +196,3 @@ id='checked-on'>
    </>
 )
 }
-
-
-export default ShareSampleScreen
-
-
-
-
