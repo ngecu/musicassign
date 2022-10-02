@@ -168,11 +168,22 @@ return (
                      </div>
                      </>
                      
-
-                    
-                   
                     ))
                 }
+
+<div class="right-items" id="status-sub-cont">
+
+<button class="shared" 
+onClick={() => shareSample(l.id)}
+
+id='checked-on'>
+<h5>Not Shared</h5>
+</button>
+ <button class="shared">
+<h5>Shared</h5>
+</button>
+
+</div>
 
                 
                      </div>
